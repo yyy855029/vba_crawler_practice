@@ -11,9 +11,8 @@ Attribute VB_Exposed = True
 Sub 鉅亨網美股個股爬蟲(url As String, i As Integer, title As String, sheet_name As String)
     Dim httpObject As Object
     Dim jsonObject As Object
-    Dim Result As Variant
+    Dim result As Variant
     Dim item As Variant
-    Dim timeValue As Single
     Dim column_array As Variant
     
     Set httpObject = CreateObject("MSXML2.XMLHTTP")
@@ -22,8 +21,8 @@ Sub 鉅亨網美股個股爬蟲(url As String, i As Integer, title As String, sheet_name 
     httpObject.send
     
     ' 解析 JSON 格式
-    Result = httpObject.responseText
-    Set jsonObject = JsonConverter.ParseJson(Result)("data")("items")
+    result = httpObject.responseText
+    Set jsonObject = JsonConverter.ParseJson(result)("data")("items")
     
     column_array = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)", "成交量", _
                          "市值(百萬)", "本益比", "殖利率(%)", "預估目標值", "預估卷商家數")
@@ -102,9 +101,8 @@ End Sub
 Sub 鉅亨網美股ETF_指數爬蟲(url As String, i As Integer, title As String, sheet_name As String)
     Dim httpObject As Object
     Dim jsonObject As Object
-    Dim Result As Variant
+    Dim result As Variant
     Dim item As Variant
-    Dim timeValue As Single
     Dim column_array As Variant
     
     Set httpObject = CreateObject("MSXML2.XMLHTTP")
@@ -113,8 +111,8 @@ Sub 鉅亨網美股ETF_指數爬蟲(url As String, i As Integer, title As String, sheet_n
     httpObject.send
     
     ' 解析 JSON 格式
-    Result = httpObject.responseText
-    Set jsonObject = JsonConverter.ParseJson(Result)("data")("items")
+    result = httpObject.responseText
+    Set jsonObject = JsonConverter.ParseJson(result)("data")("items")
 
     column_array = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)")
     
@@ -180,9 +178,8 @@ End Sub
 Sub 鉅亨網美國公債殖利率爬蟲(url As String, i As Integer, title As String, sheet_name As String)
     Dim httpObject As Object
     Dim jsonObject As Object
-    Dim Result As Variant
+    Dim result As Variant
     Dim item As Variant
-    Dim timeValue As Single
     Dim column_array As Variant
     
     Set httpObject = CreateObject("MSXML2.XMLHTTP")
@@ -191,8 +188,8 @@ Sub 鉅亨網美國公債殖利率爬蟲(url As String, i As Integer, title As String, sheet
     httpObject.send
     
     ' 解析 JSON 格式
-    Result = httpObject.responseText
-    Set jsonObject = JsonConverter.ParseJson(Result)("data")("items")
+    result = httpObject.responseText
+    Set jsonObject = JsonConverter.ParseJson(result)("data")("items")
 
     column_array = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)")
     
