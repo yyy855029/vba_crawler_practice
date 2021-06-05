@@ -13,7 +13,7 @@ Sub 鉅亨網美股個股爬蟲(url As String, i As Integer, title As String, sheet_name 
     Dim jsonObject As Object
     Dim result As Variant
     Dim item As Variant
-    Dim column_array As Variant
+    Dim columnArray As Variant
     
     Set httpObject = CreateObject("MSXML2.XMLHTTP")
     
@@ -24,13 +24,13 @@ Sub 鉅亨網美股個股爬蟲(url As String, i As Integer, title As String, sheet_name 
     result = httpObject.responseText
     Set jsonObject = JsonConverter.ParseJson(result)("data")("items")
     
-    column_array = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)", "成交量", _
+    columnArray = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)", "成交量", _
                          "市值(百萬)", "本益比", "殖利率(%)", "預估目標值", "預估卷商家數")
                          
     With ThisWorkbook.Worksheets(sheet_name)
         ' 填入標題和欄位名稱
         .Cells(i - 2, 1) = title
-        .Range(.Cells(i - 1, 1), .Cells(i - 1, 12)) = column_array
+        .Range(.Cells(i - 1, 1), .Cells(i - 1, 12)) = columnArray
         
         ' 解決 Class Range 的 Select 方法失敗
         ThisWorkbook.Worksheets(sheet_name).Select
@@ -103,7 +103,7 @@ Sub 鉅亨網美股ETF_指數爬蟲(url As String, i As Integer, title As String, sheet_n
     Dim jsonObject As Object
     Dim result As Variant
     Dim item As Variant
-    Dim column_array As Variant
+    Dim columnArray As Variant
     
     Set httpObject = CreateObject("MSXML2.XMLHTTP")
     
@@ -114,12 +114,12 @@ Sub 鉅亨網美股ETF_指數爬蟲(url As String, i As Integer, title As String, sheet_n
     result = httpObject.responseText
     Set jsonObject = JsonConverter.ParseJson(result)("data")("items")
 
-    column_array = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)")
+    columnArray = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)")
     
     With ThisWorkbook.Worksheets(sheet_name)
         ' 填入標題和欄位名稱
         .Cells(i - 2, 1) = title
-        .Range(.Cells(i - 1, 1), .Cells(i - 1, 6)) = column_array
+        .Range(.Cells(i - 1, 1), .Cells(i - 1, 6)) = columnArray
         
         ' 解決 Class Range 的 Select 方法失敗
         ThisWorkbook.Worksheets(sheet_name).Select
@@ -180,7 +180,7 @@ Sub 鉅亨網美國公債殖利率爬蟲(url As String, i As Integer, title As String, sheet
     Dim jsonObject As Object
     Dim result As Variant
     Dim item As Variant
-    Dim column_array As Variant
+    Dim columnArray As Variant
     
     Set httpObject = CreateObject("MSXML2.XMLHTTP")
     
@@ -191,12 +191,12 @@ Sub 鉅亨網美國公債殖利率爬蟲(url As String, i As Integer, title As String, sheet
     result = httpObject.responseText
     Set jsonObject = JsonConverter.ParseJson(result)("data")("items")
 
-    column_array = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)")
+    columnArray = Array("時間", "代碼", "中文名稱", "成交價", "漲跌", "漲幅(%)")
     
     With ThisWorkbook.Worksheets(sheet_name)
         ' 填入標題和欄位名稱
         .Cells(i - 2, 1) = title
-        .Range(.Cells(i - 1, 1), .Cells(i - 1, 6)) = column_array
+        .Range(.Cells(i - 1, 1), .Cells(i - 1, 6)) = columnArray
         
         ' 解決 Class Range 的 Select 方法失敗
         ThisWorkbook.Worksheets(sheet_name).Select
