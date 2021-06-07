@@ -1,5 +1,5 @@
 Attribute VB_Name = "Module1"
-Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
+Sub æŠ“å–Yahoo_Financeåˆ†é˜å ±åƒ¹è³‡æ–™()
     Dim stockCode As String
     Dim url As String
     Dim httpObject As Object
@@ -14,9 +14,8 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
     Dim columnArray As Variant
     Dim i As Integer
     Dim chartRange As Range
-    Dim testChart As Object
     
-    ' ªÑ²¼¥N¸¹Äæ¦ì
+    ' è‚¡ç¥¨ä»£è™Ÿæ¬„ä½
     stockCode = Range("I1").Value
     url = "https://tw.stock.yahoo.com/_td-stock/api/resource/FinanceChartService.ApacLibraCharts;symbols=%5B%22" & stockCode & ".TW%22%5D;type=tick?bkt=%5B%22tw-qsp-exp-no2-1%22%2C%22test-es-module-production%22%2C%22test-portfolio-stream%22%5D&device=desktop&ecma=modern&feature=ecmaModern%2CshowPortfolioStream&intl=tw&lang=zh-Hant-TW&partner=none&prid=2h3pnulg7tklc&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.902&returnMeta=true"
     
@@ -25,7 +24,7 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
     httpObject.Open "GET", url, False
     httpObject.send
     
-    ' ¸ÑªR JSON ®æ¦¡
+    ' è§£æ JSON æ ¼å¼
     result = httpObject.responseText
     Set jsonObject = JsonConverter.ParseJson(result)("data")(1)("chart")
     Set timeObject = jsonObject("timestamp")
@@ -35,14 +34,14 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
     Set closeObject = jsonObject("indicators")("quote")(1)("close")
     Set volumeObject = jsonObject("indicators")("quote")(1)("volume")
     
-    ' ²MªÅ¼Æ­È
+    ' æ¸…ç©ºæ•¸å€¼
     Range("A:F").Clear
     
-    ' ¶ñ¤JÄæ¦ì¦WºÙ
-    columnArray = Array("®É¶¡", "¶}½L»ù", "³Ì°ª»ù", "³Ì§C»ù", "¦¬½L»ù", "¦¨¥æ¶q")
+    ' å¡«å…¥æ¬„ä½åç¨±
+    columnArray = Array("æ™‚é–“", "é–‹ç›¤åƒ¹", "æœ€é«˜åƒ¹", "æœ€ä½åƒ¹", "æ”¶ç›¤åƒ¹", "æˆäº¤é‡")
     Range("A1:F1") = columnArray
     
-    ' ¤å¦r¸m¤¤
+    ' æ–‡å­—ç½®ä¸­
     Range("A:F").Select
         
     With Selection
@@ -57,11 +56,11 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
         .MergeCells = False
     End With
     
-    ' ¶ñ¤J¸ê®Æ
+    ' å¡«å…¥è³‡æ–™
     For i = 1 To openObject.Count
-        ' ®É¶¡(³B²z¥i¯à¯Ê­È)
+        ' æ™‚é–“(è™•ç†å¯èƒ½ç¼ºå€¼)
         If IsNumeric(timeObject(i)) = True Then
-            ' ±N Timestamp Âà´«¦¨ Date
+            ' å°‡ Timestamp è½‰æ›æˆ Date
             Cells(1 + i, "A") = DateAdd("s", timeObject(i) + 28800, "1/1/1970")
         Else
             Cells(1 + i, "A") = timeObject(i)
@@ -73,7 +72,7 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
         Cells(1 + i, "E") = closeObject(i)
         Cells(1 + i, "F") = volumeObject(i)
         
-        ' ®Ú¾Úº¦¶^µÛ¦â
+        ' æ ¹æ“šæ¼²è·Œè‘—è‰²
         If Cells(1 + i, "B").Value < Cells(1 + i, "E").Value Then
             Range(Cells(1 + i, "B"), Cells(1 + i, "F")).Font.ColorIndex = 3
         ElseIf Cells(1 + i, "B").Value > Cells(1 + i, "E").Value Then
@@ -82,12 +81,12 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
         
     Next i
     
-    ' ­Y­ì¥ı¦s¦b¹Ï«h§R°£
+    ' è‹¥åŸå…ˆå­˜åœ¨åœ–å‰‡åˆªé™¤
     If ActiveSheet.ChartObjects.Count > 0 Then
         ActiveSheet.ChartObjects.Delete
     End If
     
-    ' ³]©wÃ¸¹Ï½d³ò¤j¤p
+    ' è¨­å®šç¹ªåœ–ç¯„åœå¤§å°
     Set chartRange = Range("H8:P21")
     
     ActiveSheet.Shapes.AddChart2(201, _
@@ -98,66 +97,66 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
                                 Height:=chartRange.Height).Select
     
     With ActiveChart
-        ' X-Y§é½u¹Ï¸ê®Æ½d³ò
-        .SetSourceData Source:=Range("·í¤é­ÓªÑ¤ÀÄÁ³ø»ù!$A$1:$A$272,·í¤é­ÓªÑ¤ÀÄÁ³ø»ù!$E$1:$F$272")
-        ' »ù®æ§é½u¹Ï
+        ' X-YæŠ˜ç·šåœ–è³‡æ–™ç¯„åœ
+        .SetSourceData Source:=Range("ç•¶æ—¥å€‹è‚¡åˆ†é˜å ±åƒ¹!$A$1:$A$272,ç•¶æ—¥å€‹è‚¡åˆ†é˜å ±åƒ¹!$E$1:$F$272")
+        ' åƒ¹æ ¼æŠ˜ç·šåœ–
         With .FullSeriesCollection(1)
-            '³]©w§é½u¹Ï
+            'è¨­å®šæŠ˜ç·šåœ–
             .ChartType = xlLine
-            ' §ó§ï½u¼e«×
+            ' æ›´æ”¹ç·šå¯¬åº¦
             .Format.Line.Weight = 1
         End With
         
-        ' ¦¨¥æ¶q¬Wª¬¹Ï
+        ' æˆäº¤é‡æŸ±ç‹€åœ–
         With .FullSeriesCollection(2)
             .AxisGroup = 2
-            ' ³]©w¬Wª¬¹Ï
+            ' è¨­å®šæŸ±ç‹€åœ–
             .ChartType = xlColumnClustered
-            ' §ó§ï¬WÃC¦â
+            ' æ›´æ”¹æŸ±é¡è‰²
             .Format.Fill.ForeColor.RGB = RGB(255, 0, 0)
-            ' §ó§ï¬W³z©ú«×
+            ' æ›´æ”¹æŸ±é€æ˜åº¦
             .Format.Fill.Transparency = 0
         End With
     
-        ' §ó§ï¦r«¬
-        .ChartArea.Font.Name = "·L³n¥¿¶ÂÅé"
-        ' §R°£¹Ï¨Ò
+        ' æ›´æ”¹å­—å‹
+        .ChartArea.Font.Name = "å¾®è»Ÿæ­£é»‘é«”"
+        ' åˆªé™¤åœ–ä¾‹
         .Legend.Delete
         
-        ' ¾î§¤¼Ğ¶b
+        ' æ©«åæ¨™è»¸
         With .Axes(xlCategory)
             .CategoryType = xlCategoryScale
-            ' §ó§ï®É¶¡Åã¥Ü
+            ' æ›´æ”¹æ™‚é–“é¡¯ç¤º
             .TickLabels.NumberFormatLocal = "h:mm;@"
-            ' §ó§ï¦rÅé¤j¤p
+            ' æ›´æ”¹å­—é«”å¤§å°
             .TickLabels.Font.Size = 10
-            ' §ó§ï¥[²ÊÅé
+            ' æ›´æ”¹åŠ ç²—é«”
             .TickLabels.Font.Bold = msoTrue
         End With
         
-        ' Áa¥D®y¼Ğ¶b
+        ' ç¸±ä¸»åº§æ¨™è»¸
         With .Axes(xlValue).TickLabels
-            ' §ó§ï¦rÅé¤j¤p
+            ' æ›´æ”¹å­—é«”å¤§å°
             .Font.Size = 10
-            ' §ó§ï¥[²ÊÅé
+            ' æ›´æ”¹åŠ ç²—é«”
             .Font.Bold = msoTrue
         End With
         
-        ' Áa°Æ®y¼Ğ¶b
+        ' ç¸±å‰¯åº§æ¨™è»¸
         With .Axes(xlValue, xlSecondary).TickLabels
-            ' §ó§ï¦rÅé¤j¤p
+            ' æ›´æ”¹å­—é«”å¤§å°
             .Font.Size = 10
-            ' §ó§ï¥[²ÊÅé
+            ' æ›´æ”¹åŠ ç²—é«”
             .Font.Bold = msoTrue
         End With
         
-        ' ¼ĞÃD
+        ' æ¨™é¡Œ
         With .ChartTitle
-            ' §ó§ï¼ĞÃD
-            .Text = stockCode & " ·í¤Ñ¦¬½L»ù©M¦¨¥æ¶q"
-            ' §ó§ï¦rÅé¤j¤p
+            ' æ›´æ”¹æ¨™é¡Œ
+            .Text = stockCode & " ç•¶å¤©æ”¶ç›¤åƒ¹å’Œæˆäº¤é‡"
+            ' æ›´æ”¹å­—é«”å¤§å°
             .Font.Size = 14
-            ' §ó§ï¥[²ÊÅé
+            ' æ›´æ”¹åŠ ç²—é«”
             .Font.Bold = msoTrue
         End With
              
@@ -168,7 +167,7 @@ Sub §ì¨úYahoo_Finance¤ÀÄÁ³ø»ù¸ê®Æ()
 End Sub
 
 
-Sub §ì¨úÃÒ¥æ©Ò¤T¤jªk¤H¶R½æ¶W¤é³ø()
+Sub æŠ“å–è­‰äº¤æ‰€ä¸‰å¤§æ³•äººè²·è³£è¶…æ—¥å ±()
     Dim stockDate As String
     Dim url As String
     Dim httpObject As Object
@@ -179,7 +178,7 @@ Sub §ì¨úÃÒ¥æ©Ò¤T¤jªk¤H¶R½æ¶W¤é³ø()
     Dim i As Integer
     Dim j As Integer
 
-    ' ¤é´ÁÄæ¦ì
+    ' æ—¥æœŸæ¬„ä½
     stockDate = Format(Range("B1").Value, "yyyyMMdd")
     url = "https://www.twse.com.tw/fund/T86?response=json&date=" & stockDate & "&selectType=ALLBUT0999"
     
@@ -188,16 +187,16 @@ Sub §ì¨úÃÒ¥æ©Ò¤T¤jªk¤H¶R½æ¶W¤é³ø()
     httpObject.Open "GET", url, False
     httpObject.send
 
-    ' ¸ÑªR JSON ®æ¦¡
+    ' è§£æ JSON æ ¼å¼
     result = httpObject.responseText
     Set jsonObject = JsonConverter.ParseJson(result)
     Set dataObject = jsonObject("data")
     Set columnObject = jsonObject("fields")
     
-    ' ²MªÅ¼Æ­È
+    ' æ¸…ç©ºæ•¸å€¼
     Range("A5:S10000").Clear
     
-    ' ¤å¦r¸m¤¤
+    ' æ–‡å­—ç½®ä¸­
     Range("A:S").Select
         
     With Selection
@@ -212,32 +211,32 @@ Sub §ì¨úÃÒ¥æ©Ò¤T¤jªk¤H¶R½æ¶W¤é³ø()
         .MergeCells = False
     End With
     
-    ' ¶ñ¤JÄæ¦ì¦WºÙ
+    ' å¡«å…¥æ¬„ä½åç¨±
     For i = 1 To columnObject.Count
         Cells(4, i) = columnObject(i)
     Next i
     
-    ' ¶ñ¤J¸ê®Æ
-    ' ¨Cµ§ÃÒ¨÷
+    ' å¡«å…¥è³‡æ–™
+    ' æ¯ç­†è­‰å·
     For i = 1 To dataObject.Count
-        ' ¨C­ÓÄæ¦ì
+        ' æ¯å€‹æ¬„ä½
         For j = 1 To dataObject(i).Count
             If j >= 1 And j <= 2 Then
-                ' «e 2 ÄæÃÒ¨÷¥N¸¹©M¦WºÙ³B²z
+                ' å‰ 2 æ¬„è­‰å·ä»£è™Ÿå’Œåç¨±è™•ç†
                 Cells(i + 4, j) = Replace(CStr(dataObject(i)(j)), " ", "")
             Else
-                ' ²Ä 3 Äæ¥H«á¼Æ¦r¸ê®Æ³B²z
+                ' ç¬¬ 3 æ¬„ä»¥å¾Œæ•¸å­—è³‡æ–™è™•ç†
                 Cells(i + 4, j) = CDbl(dataObject(i)(j))
             End If
         Next j
     Next i
     
-    ' ®Ú¾Ú¤T¤jªk¤H¶R½æ¶WªÑ¼Æ±Æ§Ç
-    ActiveWorkbook.Worksheets("¤T¤jªk¤H¶R½æ¶W").Range("A4:S1090").Select
-    ActiveWorkbook.Worksheets("¤T¤jªk¤H¶R½æ¶W").Sort.SortFields.Clear
-    ActiveWorkbook.Worksheets("¤T¤jªk¤H¶R½æ¶W").Sort.SortFields.Add2 Key:=Range("S5:S1090") _
+    ' æ ¹æ“šä¸‰å¤§æ³•äººè²·è³£è¶…è‚¡æ•¸æ’åº
+    ActiveWorkbook.Worksheets("ä¸‰å¤§æ³•äººè²·è³£è¶…").Range("A4:S1090").Select
+    ActiveWorkbook.Worksheets("ä¸‰å¤§æ³•äººè²·è³£è¶…").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("ä¸‰å¤§æ³•äººè²·è³£è¶…").Sort.SortFields.Add2 Key:=Range("S5:S1090") _
         , SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
-    With ActiveWorkbook.Worksheets("¤T¤jªk¤H¶R½æ¶W").Sort
+    With ActiveWorkbook.Worksheets("ä¸‰å¤§æ³•äººè²·è³£è¶…").Sort
         .SetRange Range("A4:S1090")
         .Header = xlYes
         .MatchCase = False
@@ -246,7 +245,7 @@ Sub §ì¨úÃÒ¥æ©Ò¤T¤jªk¤H¶R½æ¶W¤é³ø()
         .Apply
     End With
     
-    ' ¦Û°Ê½Õ¾ãÄæ¼e
+    ' è‡ªå‹•èª¿æ•´æ¬„å¯¬
     Columns.AutoFit
     Range("B1").Select
 
