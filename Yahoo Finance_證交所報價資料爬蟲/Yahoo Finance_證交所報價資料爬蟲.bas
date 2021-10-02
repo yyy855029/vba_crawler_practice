@@ -98,7 +98,7 @@ Sub 抓取Yahoo_Finance分鐘報價資料()
     
     With ActiveChart
         ' X-Y折線圖資料範圍
-        .SetSourceData Source:=Range("當日個股分鐘報價!$A$1:$A$272,當日個股分鐘報價!$E$1:$F$272")
+        .SetSourceData Source:=Range("當日個股分鐘報價!$A$1:$A$" & Range("A" & Rows.Count).End(xlUp).Row & ",當日個股分鐘報價!$E$1:$F$" & Range("E" & Rows.Count).End(xlUp).Row)
         ' 價格折線圖
         With .FullSeriesCollection(1)
             '設定折線圖
