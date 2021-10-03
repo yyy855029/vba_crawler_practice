@@ -14,6 +14,7 @@ Sub 抓取Yahoo_Finance分鐘報價資料()
     Dim columnArray As Variant
     Dim i As Integer
     Dim chartRange As Range
+    Dim rowNum As Integer
     
     ' 股票代號欄位
     stockCode = Range("I1").Value
@@ -88,6 +89,7 @@ Sub 抓取Yahoo_Finance分鐘報價資料()
     
     ' 設定繪圖範圍大小
     Set chartRange = Range("H8:P21")
+    rowNum = Range("A" & Rows.Count).End(xlUp).Row
     
     ActiveSheet.Shapes.AddChart2(201, _
                                 xlColumnClustered, _
@@ -98,7 +100,7 @@ Sub 抓取Yahoo_Finance分鐘報價資料()
     
     With ActiveChart
         ' X-Y折線圖資料範圍
-        .SetSourceData Source:=Range("當日個股分鐘報價!$A$1:$A$" & Range("A" & Rows.Count).End(xlUp).Row & ",當日個股分鐘報價!$E$1:$F$" & Range("E" & Rows.Count).End(xlUp).Row)
+        .SetSourceData Source:=Range("當日個股分鐘報價!$A$1:$A$" & rowNum & ",當日個股分鐘報價!$E$1:$F$" & rowNum)
         ' 價格折線圖
         With .FullSeriesCollection(1)
             '設定折線圖
