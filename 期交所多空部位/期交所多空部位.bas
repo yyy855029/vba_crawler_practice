@@ -12,11 +12,12 @@ Sub 抓取期貨報價資料()
     Dim j As Integer
     Dim k As Integer
     
+    ' 改為手動更新
     Application.Calculation = xlCalculationManual
     
+    ' 資料日期
     start_date = Worksheets("圖形").Range("C2").Value
     end_date = Worksheets("圖形").Range("D2").Value
-    
     date_array = Array(start_date, end_date)
     
     ' 期貨三大法人
@@ -40,6 +41,7 @@ Sub 抓取期貨報價資料()
         j = 1
         For Each nrow In df.Rows
             k = 1
+            
             For Each ncol In nrow.Cells
                 Worksheets(dataname_array(i)).Cells(j, k) = Replace(ncol.innertext, vbCrLf, "")
                 k = k + 1
@@ -70,7 +72,9 @@ Sub 抓取期貨報價資料()
         j = 1
         For Each nrow In df.Rows
             k = 1
+            
             For Each ncol In nrow.Cells
+                ' 排除換行處理
                 Worksheets(dataname_array(i)).Cells(j, k) = Replace(ncol.innertext, vbCrLf, "")
                 k = k + 1
             Next ncol
@@ -79,6 +83,7 @@ Sub 抓取期貨報價資料()
     
     Next i
     
+    ' 恢復自動更新
     Application.Calculation = xlCalculationAutomatic
     
 End Sub
@@ -98,11 +103,12 @@ Sub 抓取選擇權報價資料()
     Dim k As Integer
     Dim check_date As String
     
+    ' 改為手動更新
     Application.Calculation = xlCalculationManual
     
+    ' 資料日期
     start_date = Worksheets("圖形").Range("C2").Value
     end_date = Worksheets("圖形").Range("D2").Value
-    
     date_array = Array(start_date, end_date)
     
     ' 選擇權三大法人
@@ -126,7 +132,9 @@ Sub 抓取選擇權報價資料()
         j = 1
         For Each nrow In df.Rows
             k = 1
+            
             For Each ncol In nrow.Cells
+                ' 排除換行處理
                 Worksheets(dataname_array(i)).Cells(j, k) = Replace(ncol.innertext, vbCrLf, "")
                 k = k + 1
             Next ncol
@@ -156,7 +164,9 @@ Sub 抓取選擇權報價資料()
         j = 1
         For Each nrow In df.Rows
             k = 1
+            
             For Each ncol In nrow.Cells
+                ' 排除換行處理
                 Worksheets(dataname_array(i)).Cells(j, k) = Replace(ncol.innertext, vbCrLf, "")
                 k = k + 1
             Next ncol
@@ -178,8 +188,9 @@ Sub 抓取選擇權報價資料()
         check_date = Worksheets(dataname_array(i)).Range("B2")
         
         For j = 2 To Worksheets(dataname_array(i)).Range("A1").End(xlDown).Row
+            ' Call
             If j Mod 2 = 0 And check_date = Worksheets(dataname_array(i)).Cells(j, 2) Then
-                ' 到期月份(週別)
+                ' 合約
                 Worksheets(sort_dataname_array(i)).Cells(j \ 2 + 1, 1) = Worksheets(dataname_array(i)).Cells(j, 2)
                 ' 履約價
                 Worksheets(sort_dataname_array(i)).Cells(j \ 2 + 1, 2) = Worksheets(dataname_array(i)).Cells(j, 3)
@@ -189,7 +200,8 @@ Sub 抓取選擇權報價資料()
                 Worksheets(sort_dataname_array(i)).Cells(j \ 2 + 1, 4) = Worksheets(dataname_array(i)).Cells(j, 14)
                 ' 未平倉
                 Worksheets(sort_dataname_array(i)).Cells(j \ 2 + 1, 5) = Worksheets(dataname_array(i)).Cells(j, 15)
-                
+             
+            ' Put
             ElseIf check_date = Worksheets(dataname_array(i)).Cells(j, 2) Then
                 ' 履約價
                 Worksheets(sort_dataname_array(i)).Cells(j \ 2 + 1, 6) = Worksheets(dataname_array(i)).Cells(j, 3)
@@ -205,6 +217,7 @@ Sub 抓取選擇權報價資料()
         Next j
     Next i
     
+    ' 恢復自動更新
     Application.Calculation = xlCalculationAutomatic
     
 End Sub
@@ -214,9 +227,3 @@ Sub 執行()
     Call 抓取期貨報價資料
     Call 抓取選擇權報價資料
 End Sub
-
-
-
-
-
-
